@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Time Machine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,300&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <div class="logo">
+          <span class="logo-icon">⏳</span>
+          <span class="logo-text">Time Machine</span>
+        </div>
+        <div class="rec-indicator" id="recIndicator">
+          <span class="rec-dot"></span>
+          <span class="rec-label">REC</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <button class="icon-btn" id="toggleBtn" title="Toggle recording">⏸</button>
+        <button class="icon-btn" id="settingsBtn" title="Settings">⚙</button>
+      </div>
+    </header>
+
+    <!-- Stats bar -->
+    <div class="stats-bar" id="statsBar">
+      <div class="stat">
+        <span class="stat-num" id="totalCount">0</span>
+        <span class="stat-label">captured</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num" id="changedCount">0</span>
+        <span class="stat-label">shape changes</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num" id="hostCount">0</span>
+        <span class="stat-label">hosts</span>
+      </div>
+    </div>
+
+    <!-- Tab bar -->
+    <nav class="tabs">
+      <button class="tab active" data-tab="feed">Feed</button>
+      <button class="tab" data-tab="changes">Changes</button>
+      <button class="tab" data-tab="history">History</button>
+      <button class="tab" data-tab="diff">Diff</button>
+      <button class="tab" data-tab="settings">Settings</button>
+    </nav>
+
+    <!-- Feed view -->
+    <div class="view active" id="view-feed">
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Filter by URL, host, or method…" class="search-input">
+        <select aria-label="Select method" id="methodFilter" class="method-filter">
+          <option value="">All</option>
+          <option value="GET">GET</option>
+          <option value="POST">POST</option>
+          <option value="PUT">PUT</option>
+          <option value="PATCH">PATCH</option>
+          <option value="DELETE">DELETE</option>
+        </select>
+      </div>
+      <div class="record-list" id="recordList">
+        <div class="empty-state">
+          <div class="empty-icon">📡</div>
+          <div class="empty-title">Waiting for API calls</div>
+          <div class="empty-sub">Browse any page — JSON responses will appear here</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Changes view -->
+    <div class="view" id="view-changes">
+      <div class="changes-list" id="changesList">
+        <div class="empty-state">
+          <div class="empty-icon">🔍</div>
+          <div class="empty-title">No shape changes detected</div>
+          <div class="empty-sub">When an API response changes structure, it appears here</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- History view -->
+    <div class="view" id="view-history">
+      <div class="history-toolbar">
+        <span class="history-label">Shape timeline per endpoint</span>
+        <button class="btn-sm" id="clearShapeHistoryBtn">Clear</button>
+      </div>
+      <div class="history-list" id="historyList">
+        <div class="empty-state">
+          <div class="empty-icon">🗂️</div>
+          <div class="empty-title">No shape history yet</div>
+          <div class="empty-sub">Shape versions appear here as endpoints evolve</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diff view -->
+    <div class="view" id="view-diff">
+      <div class="diff-header">
+        <div class="diff-slot" id="diffSlotA">
+          <div class="diff-slot-label">Version A</div>
+          <div class="diff-slot-placeholder">Select a record from Feed</div>
+        </div>
+        <div class="diff-vs">VS</div>
+        <div class="diff-slot" id="diffSlotB">
+          <div class="diff-slot-label">Version B</div>
+          <div class="diff-slot-placeholder">Select another record</div>
+        </div>
+      </div>
+      <div class="diff-controls">
+        <button class="diff-mode-btn active" data-mode="shape">Shape diff</button>
+        <button class="diff-mode-btn" data-mode="body">Body diff</button>
+        <button class="btn-clear-diff" id="clearDiffBtn">Clear</button>
+      </div>
+      <div class="diff-output" id="diffOutput">
+        <div class="empty-state">
+          <div class="empty-icon">⚖️</div>
+          <div class="empty-title">No diff yet</div>
+          <div class="empty-sub">Right-click any two records and send to diff</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings view -->
+    <div class="view" id="view-settings">
+      <div class="settings-form">
+        <div class="setting-group">
+          <label class="setting-label">Recording</label>
+          <div class="setting-row">
+            <span>Enabled</span>
+            <input aria-label="Enable setting" type="checkbox" id="settingEnabled" checked class="toggle">
+          </div>
+          <div class="setting-row" style="margin-top:8px">
+            <span>Notify on shape change</span>
+            <input aria-label="Enable notify" type="checkbox" id="settingNotify" class="toggle">
+          </div>
+        </div>
+        <div class="setting-group">
+          <label class="setting-label">URL Filter (include only)</label>
+          <textarea id="settingFilters" class="setting-textarea"
+            placeholder="One pattern per line&#10;Plain:  /api/&#10;Glob:   api.*.com/users*&#10;Regex:  /^https:\/\/api\./"></textarea>
+          <div class="setting-hint">Empty = capture all. Supports plain text, glob (*?), or /regex/.</div>
+        </div>
+        <div class="setting-group">
+          <label class="setting-label">Exclude patterns</label>
+          <textarea id="settingExcludes" class="setting-textarea"
+            placeholder="One pattern per line&#10;Glob and /regex/ supported"></textarea>
+        </div>
+        <div class="setting-group">
+          <label class="setting-label">Export / Import</label>
+          <div class="export-row">
+            <button class="btn-sm" id="exportJsonBtn">Export JSON</button>
+            <button class="btn-sm" id="exportHarBtn">Export HAR</button>
+            <label class="btn-sm import-label">
+              Import JSON
+              <input type="file" id="importFileInput" accept=".json" style="display:none">
+            </label>
+          </div>
+          <div class="setting-hint" id="importStatus"></div>
+        </div>
+        <div class="setting-actions">
+          <button class="btn-primary" id="saveSettingsBtn">Save Settings</button>
+          <button class="btn-danger" id="clearAllBtn">Clear All Records</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Record detail modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="recordModal">
+      <div class="modal-header">
+        <div class="modal-title" id="modalTitle">Response Detail</div>
+        <button class="modal-close" id="modalClose">✕</button>
+      </div>
+      <div class="modal-meta" id="modalMeta"></div>
+      <div class="modal-tabs">
+        <button class="modal-tab active" data-mtab="body">Response</button>
+        <button class="modal-tab" data-mtab="request">Request</button>
+        <button class="modal-tab" data-mtab="shape">Shape</button>
+        <button class="modal-tab" data-mtab="headers">Headers</button>
+      </div>
+      <div class="modal-content" id="modalContent"></div>
+      <div class="modal-actions">
+        <button class="btn-sm" id="sendToDiffA">Send to Diff A</button>
+        <button class="btn-sm" id="sendToDiffB">Send to Diff B</button>
+        <button class="btn-sm btn-danger-sm" id="deleteRecord">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+
+</html>
