@@ -658,3 +658,187 @@ body {
 .json-num    { color: var(--amber); }
 .json-bool   { color: #c792ea; }
 .json-null   { color: var(--muted); }
+
+/* ── History View ───────────────────────────────────────── */
+.history-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg1);
+  flex-shrink: 0;
+}
+.history-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.history-list { flex: 1; overflow-y: auto; }
+.history-list::-webkit-scrollbar { width: 4px; }
+.history-list::-webkit-scrollbar-track { background: var(--bg0); }
+.history-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* One endpoint group */
+.history-endpoint {
+  border-bottom: 1px solid var(--border);
+}
+.history-endpoint-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.history-endpoint-header:hover { background: var(--bg2); }
+
+.history-endpoint-url {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-hi);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.history-endpoint-url .url-host { color: var(--amber); }
+
+.history-version-count {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 2px;
+  background: rgba(245,166,35,0.1);
+  color: var(--amber);
+  flex-shrink: 0;
+}
+
+.history-chevron {
+  font-size: 10px;
+  color: var(--muted);
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+.history-endpoint.open .history-chevron { transform: rotate(90deg); }
+
+/* Shape version timeline inside an endpoint */
+.history-timeline {
+  display: none;
+  padding: 0 12px 10px 28px;
+  position: relative;
+}
+.history-endpoint.open .history-timeline { display: block; }
+
+/* Vertical track line */
+.history-timeline::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+
+.history-version {
+  position: relative;
+  padding: 8px 0 8px 18px;
+  border-bottom: 1px solid rgba(42,46,54,0.5);
+}
+.history-version:last-child { border-bottom: none; }
+
+/* Timeline dot */
+.history-version::before {
+  content: '';
+  position: absolute;
+  left: -4px;
+  top: 14px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--bg1);
+  border: 2px solid var(--border);
+}
+.history-version.is-change::before {
+  border-color: var(--red);
+  background: rgba(231,76,60,0.2);
+}
+.history-version.is-latest::before {
+  border-color: var(--amber);
+  background: rgba(245,166,35,0.2);
+}
+
+.history-version-time {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+}
+.history-version-hash {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--muted);
+  margin-left: 8px;
+}
+.history-version-label {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 2px;
+  margin-left: 6px;
+  letter-spacing: 0.4px;
+}
+.label-change  { background: rgba(231,76,60,0.2);  color: var(--red); }
+.label-latest  { background: rgba(245,166,35,0.15); color: var(--amber); }
+.label-initial { background: rgba(74,158,255,0.15); color: var(--blue); }
+
+.history-version-diff-summary {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 3px;
+}
+.history-version-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 5px;
+}
+.history-version-actions .btn-sm {
+  font-size: 10px;
+  padding: 3px 8px;
+}
+
+/* ── Export / Import ────────────────────────────────────── */
+.export-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.import-label {
+  /* Styled identically to .btn-sm but acts as a file input trigger */
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: var(--r);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: var(--sans);
+  display: inline-flex;
+  align-items: center;
+}
+.import-label:hover { border-color: var(--amber-dim); color: var(--amber); }
+
+#importStatus {
+  min-height: 14px;
+  transition: color 0.2s;
+}
+#importStatus.ok  { color: var(--green); }
+#importStatus.err { color: var(--red); }

@@ -15,56 +15,61 @@
 <body>
   <div id="app">
     <!-- Header -->
-    <header class="header">
+    <header class="header" role="banner">
       <div class="header-left">
-        <div class="logo">
-          <span class="logo-icon">⏳</span>
+        <div class="logo" aria-label="API Time Machine">
+          <span class="logo-icon" aria-hidden="true">⏳</span>
           <span class="logo-text">Time Machine</span>
         </div>
-        <div class="rec-indicator" id="recIndicator">
-          <span class="rec-dot"></span>
-          <span class="rec-label">REC</span>
+        <div class="rec-indicator" id="recIndicator" role="status" aria-label="Recording active" aria-live="polite">
+          <span class="rec-dot" aria-hidden="true"></span>
+          <span class="rec-label" aria-hidden="true">REC</span>
         </div>
       </div>
       <div class="header-right">
-        <button class="icon-btn" id="toggleBtn" title="Toggle recording">⏸</button>
-        <button class="icon-btn" id="settingsBtn" title="Settings">⚙</button>
+        <button class="icon-btn" id="toggleBtn" title="Pause recording" aria-label="Pause recording"
+          aria-pressed="true">⏸</button>
+        <button class="icon-btn" id="settingsBtn" title="Settings" aria-label="Open settings">⚙</button>
       </div>
     </header>
 
     <!-- Stats bar -->
-    <div class="stats-bar" id="statsBar">
+    <div class="stats-bar" id="statsBar" role="region" aria-label="Recording statistics">
       <div class="stat">
-        <span class="stat-num" id="totalCount">0</span>
-        <span class="stat-label">captured</span>
+        <span class="stat-num" id="totalCount" aria-label="0 responses captured">0</span>
+        <span class="stat-label" aria-hidden="true">captured</span>
       </div>
-      <div class="stat-divider"></div>
+      <div class="stat-divider" role="separator" aria-hidden="true"></div>
       <div class="stat">
-        <span class="stat-num" id="changedCount">0</span>
-        <span class="stat-label">shape changes</span>
+        <span class="stat-num" id="changedCount" aria-label="0 shape changes detected">0</span>
+        <span class="stat-label" aria-hidden="true">shape changes</span>
       </div>
-      <div class="stat-divider"></div>
+      <div class="stat-divider" role="separator" aria-hidden="true"></div>
       <div class="stat">
-        <span class="stat-num" id="hostCount">0</span>
-        <span class="stat-label">hosts</span>
+        <span class="stat-num" id="hostCount" aria-label="0 hosts seen">0</span>
+        <span class="stat-label" aria-hidden="true">hosts</span>
       </div>
     </div>
 
     <!-- Tab bar -->
-    <nav class="tabs">
-      <button class="tab active" data-tab="feed">Feed</button>
-      <button class="tab" data-tab="changes">Changes</button>
-      <button class="tab" data-tab="history">History</button>
-      <button class="tab" data-tab="diff">Diff</button>
-      <button class="tab" data-tab="settings">Settings</button>
+    <nav class="tabs" role="tablist" aria-label="Main navigation">
+      <button class="tab active" role="tab" data-tab="feed" aria-selected="true" aria-controls="view-feed">Feed</button>
+      <button class="tab" role="tab" data-tab="changes" aria-selected="false"
+        aria-controls="view-changes">Changes</button>
+      <button class="tab" role="tab" data-tab="history" aria-selected="false"
+        aria-controls="view-history">History</button>
+      <button class="tab" role="tab" data-tab="diff" aria-selected="false" aria-controls="view-diff">Diff</button>
+      <button class="tab" role="tab" data-tab="settings" aria-selected="false"
+        aria-controls="view-settings">Settings</button>
     </nav>
 
     <!-- Feed view -->
-    <div class="view active" id="view-feed">
-      <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Filter by URL, host, or method…" class="search-input">
-        <select aria-label="Select method" id="methodFilter" class="method-filter">
-          <option value="">All</option>
+    <div class="view active" id="view-feed" role="tabpanel" aria-label="API response feed">
+      <div class="search-bar" role="search">
+        <input type="text" id="searchInput" placeholder="Filter by URL, host, or method…" class="search-input"
+          aria-label="Filter responses by URL, host, or method">
+        <select id="methodFilter" class="method-filter" aria-label="Filter by HTTP method">
+          <option value="">All methods</option>
           <option value="GET">GET</option>
           <option value="POST">POST</option>
           <option value="PUT">PUT</option>
@@ -73,8 +78,8 @@
         </select>
       </div>
       <div class="record-list" id="recordList">
-        <div class="empty-state">
-          <div class="empty-icon">📡</div>
+        <div class="empty-state" role="status">
+          <div class="empty-icon" aria-hidden="true">📡</div>
           <div class="empty-title">Waiting for API calls</div>
           <div class="empty-sub">Browse any page — JSON responses will appear here</div>
         </div>
@@ -82,10 +87,10 @@
     </div>
 
     <!-- Changes view -->
-    <div class="view" id="view-changes">
+    <div class="view" id="view-changes" role="tabpanel" aria-label="Detected shape changes">
       <div class="changes-list" id="changesList">
-        <div class="empty-state">
-          <div class="empty-icon">🔍</div>
+        <div class="empty-state" role="status">
+          <div class="empty-icon" aria-hidden="true">🔍</div>
           <div class="empty-title">No shape changes detected</div>
           <div class="empty-sub">When an API response changes structure, it appears here</div>
         </div>
@@ -93,14 +98,14 @@
     </div>
 
     <!-- History view -->
-    <div class="view" id="view-history">
+    <div class="view" id="view-history" role="tabpanel" aria-label="Shape history per endpoint">
       <div class="history-toolbar">
-        <span class="history-label">Shape timeline per endpoint</span>
-        <button class="btn-sm" id="clearShapeHistoryBtn">Clear</button>
+        <span class="history-label" id="historyToolbarLabel">Shape timeline per endpoint</span>
+        <button class="btn-sm" id="clearShapeHistoryBtn" aria-label="Clear all shape history">Clear</button>
       </div>
       <div class="history-list" id="historyList">
-        <div class="empty-state">
-          <div class="empty-icon">🗂️</div>
+        <div class="empty-state" role="status">
+          <div class="empty-icon" aria-hidden="true">🗂️</div>
           <div class="empty-title">No shape history yet</div>
           <div class="empty-sub">Shape versions appear here as endpoints evolve</div>
         </div>
@@ -108,26 +113,28 @@
     </div>
 
     <!-- Diff view -->
-    <div class="view" id="view-diff">
-      <div class="diff-header">
-        <div class="diff-slot" id="diffSlotA">
-          <div class="diff-slot-label">Version A</div>
+    <div class="view" id="view-diff" role="tabpanel" aria-label="Response diff tool">
+      <div class="diff-header" role="group" aria-label="Versions to compare">
+        <div class="diff-slot" id="diffSlotA" aria-label="Version A slot">
+          <div class="diff-slot-label" aria-hidden="true">Version A</div>
           <div class="diff-slot-placeholder">Select a record from Feed</div>
         </div>
-        <div class="diff-vs">VS</div>
-        <div class="diff-slot" id="diffSlotB">
-          <div class="diff-slot-label">Version B</div>
+        <div class="diff-vs" aria-hidden="true">VS</div>
+        <div class="diff-slot" id="diffSlotB" aria-label="Version B slot">
+          <div class="diff-slot-label" aria-hidden="true">Version B</div>
           <div class="diff-slot-placeholder">Select another record</div>
         </div>
       </div>
-      <div class="diff-controls">
-        <button class="diff-mode-btn active" data-mode="shape">Shape diff</button>
-        <button class="diff-mode-btn" data-mode="body">Body diff</button>
-        <button class="btn-clear-diff" id="clearDiffBtn">Clear</button>
+      <div class="diff-controls" role="group" aria-label="Diff options">
+        <button class="diff-mode-btn active" data-mode="shape" aria-pressed="true"
+          aria-label="Diff by response shape">Shape diff</button>
+        <button class="diff-mode-btn" data-mode="body" aria-pressed="false" aria-label="Diff by response body">Body
+          diff</button>
+        <button class="btn-clear-diff" id="clearDiffBtn" aria-label="Clear diff selections">Clear</button>
       </div>
-      <div class="diff-output" id="diffOutput">
-        <div class="empty-state">
-          <div class="empty-icon">⚖️</div>
+      <div class="diff-output" id="diffOutput" role="region" aria-label="Diff output" aria-live="polite">
+        <div class="empty-state" role="status">
+          <div class="empty-icon" aria-hidden="true">⚖️</div>
           <div class="empty-title">No diff yet</div>
           <div class="empty-sub">Right-click any two records and send to diff</div>
         </div>
@@ -135,69 +142,83 @@
     </div>
 
     <!-- Settings view -->
-    <div class="view" id="view-settings">
+    <div class="view" id="view-settings" role="tabpanel" aria-label="Extension settings">
       <div class="settings-form">
-        <div class="setting-group">
-          <label class="setting-label">Recording</label>
+        <fieldset class="setting-group" style="border:none;padding:0">
+          <legend class="setting-label">Recording</legend>
           <div class="setting-row">
-            <span>Enabled</span>
-            <input aria-label="Enable setting" type="checkbox" id="settingEnabled" checked class="toggle">
+            <label for="settingEnabled">Enabled</label>
+            <input type="checkbox" id="settingEnabled" checked class="toggle" aria-describedby="settingEnabledHint">
           </div>
+          <div id="settingEnabledHint" class="setting-hint" style="margin-top:3px">Uncheck to pause all capturing</div>
           <div class="setting-row" style="margin-top:8px">
-            <span>Notify on shape change</span>
-            <input aria-label="Enable notify" type="checkbox" id="settingNotify" class="toggle">
+            <label for="settingNotify">Notify on shape change</label>
+            <input type="checkbox" id="settingNotify" class="toggle" aria-describedby="settingNotifyHint">
           </div>
-        </div>
+          <div id="settingNotifyHint" class="setting-hint" style="margin-top:3px">Show a browser notification when a
+            response shape changes</div>
+        </fieldset>
         <div class="setting-group">
-          <label class="setting-label">URL Filter (include only)</label>
-          <textarea id="settingFilters" class="setting-textarea"
+          <label class="setting-label" for="settingFilters">URL Filter (include only)</label>
+          <textarea id="settingFilters" class="setting-textarea" aria-describedby="settingFiltersHint"
             placeholder="One pattern per line&#10;Plain:  /api/&#10;Glob:   api.*.com/users*&#10;Regex:  /^https:\/\/api\./"></textarea>
-          <div class="setting-hint">Empty = capture all. Supports plain text, glob (*?), or /regex/.</div>
+          <div id="settingFiltersHint" class="setting-hint">Empty = capture all. Supports plain text, glob (*?), or
+            /regex/.</div>
         </div>
         <div class="setting-group">
-          <label class="setting-label">Exclude patterns</label>
-          <textarea id="settingExcludes" class="setting-textarea"
+          <label class="setting-label" for="settingExcludes">Exclude patterns</label>
+          <textarea id="settingExcludes" class="setting-textarea" aria-describedby="settingExcludesHint"
             placeholder="One pattern per line&#10;Glob and /regex/ supported"></textarea>
+          <div id="settingExcludesHint" class="setting-hint">Matching URLs are never recorded, even if they pass the
+            include filter</div>
         </div>
         <div class="setting-group">
-          <label class="setting-label">Export / Import</label>
-          <div class="export-row">
-            <button class="btn-sm" id="exportJsonBtn">Export JSON</button>
-            <button class="btn-sm" id="exportHarBtn">Export HAR</button>
-            <label class="btn-sm import-label">
+          <span class="setting-label" id="exportImportLabel">Export / Import</span>
+          <div class="export-row" role="group" aria-labelledby="exportImportLabel">
+            <button class="btn-sm" id="exportJsonBtn" aria-label="Export all records as JSON">Export JSON</button>
+            <button class="btn-sm" id="exportHarBtn" aria-label="Export all records as HAR file">Export HAR</button>
+            <label class="btn-sm import-label" aria-label="Import records from a JSON file">
               Import JSON
-              <input type="file" id="importFileInput" accept=".json" style="display:none">
+              <input type="file" id="importFileInput" accept=".json" style="display:none"
+                aria-label="Choose a JSON file to import">
             </label>
           </div>
-          <div class="setting-hint" id="importStatus"></div>
+          <div class="setting-hint" id="importStatus" role="status" aria-live="polite"></div>
         </div>
         <div class="setting-actions">
-          <button class="btn-primary" id="saveSettingsBtn">Save Settings</button>
-          <button class="btn-danger" id="clearAllBtn">Clear All Records</button>
+          <button class="btn-primary" id="saveSettingsBtn" aria-label="Save all settings">Save Settings</button>
+          <button class="btn-danger" id="clearAllBtn" aria-label="Clear all recorded responses and shape history">Clear
+            All Records</button>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Record detail modal -->
-  <div class="modal-overlay" id="modalOverlay">
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle"
+    aria-hidden="true">
     <div class="modal" id="recordModal">
       <div class="modal-header">
         <div class="modal-title" id="modalTitle">Response Detail</div>
-        <button class="modal-close" id="modalClose">✕</button>
+        <button class="modal-close" id="modalClose" aria-label="Close response detail">✕</button>
       </div>
-      <div class="modal-meta" id="modalMeta"></div>
-      <div class="modal-tabs">
-        <button class="modal-tab active" data-mtab="body">Response</button>
-        <button class="modal-tab" data-mtab="request">Request</button>
-        <button class="modal-tab" data-mtab="shape">Shape</button>
-        <button class="modal-tab" data-mtab="headers">Headers</button>
+      <div class="modal-meta" id="modalMeta" aria-label="Response metadata"></div>
+      <div class="modal-tabs" role="tablist" aria-label="Response detail sections">
+        <button class="modal-tab active" role="tab" data-mtab="body" aria-selected="true"
+          aria-controls="modalContent">Response</button>
+        <button class="modal-tab" role="tab" data-mtab="request" aria-selected="false"
+          aria-controls="modalContent">Request</button>
+        <button class="modal-tab" role="tab" data-mtab="shape" aria-selected="false"
+          aria-controls="modalContent">Shape</button>
+        <button class="modal-tab" role="tab" data-mtab="headers" aria-selected="false"
+          aria-controls="modalContent">Headers</button>
       </div>
-      <div class="modal-content" id="modalContent"></div>
-      <div class="modal-actions">
-        <button class="btn-sm" id="sendToDiffA">Send to Diff A</button>
-        <button class="btn-sm" id="sendToDiffB">Send to Diff B</button>
-        <button class="btn-sm btn-danger-sm" id="deleteRecord">Delete</button>
+      <div class="modal-content" id="modalContent" role="tabpanel" aria-live="polite"></div>
+      <div class="modal-actions" role="group" aria-label="Record actions">
+        <button class="btn-sm" id="sendToDiffA" aria-label="Send this record to diff slot A">Send to Diff A</button>
+        <button class="btn-sm" id="sendToDiffB" aria-label="Send this record to diff slot B">Send to Diff B</button>
+        <button class="btn-sm btn-danger-sm" id="deleteRecord"
+          aria-label="Delete this record permanently">Delete</button>
       </div>
     </div>
   </div>
