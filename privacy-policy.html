@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — API Response Time Machine</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #f9f9fb;
+            --white: #ffffff;
+            --border: #e2e2ea;
+            --accent: #0b0c0e;
+            --amber: #f5a623;
+            --text: #1a1a2e;
+            --muted: #6b6b82;
+            --green: #16a34a;
+            --red: #dc2626;
+            --mono: ui-monospace, 'Cascadia Code', 'SF Mono', Consolas, monospace;
+            --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--sans);
+            font-size: 15px;
+            line-height: 1.75;
+            padding: 0 0 80px;
+        }
+
+        /* ── Header ── */
+        .site-header {
+            background: var(--accent);
+            padding: 28px 0;
+            margin-bottom: 48px;
+        }
+
+        .site-header .inner {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+        }
+
+        .logo-name {
+            font-family: var(--mono);
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 0.3px;
+        }
+
+        .logo-sub {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.45);
+            font-family: var(--mono);
+            margin-top: 1px;
+        }
+
+        /* ── Layout ── */
+        .page {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--amber);
+            border-radius: 10px;
+            padding: 28px 32px;
+            margin-bottom: 40px;
+        }
+
+        .hero h1 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .hero-meta {
+            font-size: 13px;
+            color: var(--muted);
+            font-family: var(--mono);
+            margin-bottom: 16px;
+        }
+
+        .hero p {
+            font-size: 15px;
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        /* ── Commitment box ── */
+        .commitment {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin-bottom: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px 24px;
+        }
+
+        .commitment-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .ci-yes {
+            color: var(--green);
+            font-weight: 700;
+            flex-shrink: 0;
+            font-size: 15px;
+            margin-top: 1px;
+        }
+
+        .ci-no {
+            color: var(--red);
+            font-weight: 700;
+            flex-shrink: 0;
+            font-size: 15px;
+            margin-top: 1px;
+        }
+
+        /* ── Sections ── */
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h2 .num {
+            font-family: var(--mono);
+            font-size: 11px;
+            font-weight: 600;
+            color: white;
+            background: var(--accent);
+            width: 24px;
+            height: 24px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .section p {
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .section p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ── Data table ── */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+            margin: 16px 0;
+        }
+
+        .data-table th {
+            font-family: var(--mono);
+            font-size: 10px;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            color: var(--muted);
+            background: #f4f4f8;
+            padding: 9px 14px;
+            text-align: left;
+            border: 1px solid var(--border);
+        }
+
+        .data-table td {
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            vertical-align: top;
+            line-height: 1.55;
+        }
+
+        .data-table tr:nth-child(even) td {
+            background: #fafafa;
+        }
+
+        .data-table .mono-cell {
+            font-family: var(--mono);
+            font-size: 12px;
+        }
+
+        /* ── Inline code ── */
+        code {
+            font-family: var(--mono);
+            font-size: 13px;
+            background: #f0f0f5;
+            padding: 1px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+
+        /* ── Info boxes ── */
+        .info-box {
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin: 16px 0;
+            display: flex;
+            gap: 12px;
+            font-size: 14px;
+            line-height: 1.65;
+        }
+
+        .info-box.tip {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+        }
+
+        .info-box.warning {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+        }
+
+        .info-box.info {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+        }
+
+        .info-icon {
+            font-size: 16px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        /* ── UL ── */
+        ul.policy-list {
+            padding-left: 20px;
+            margin: 10px 0 14px;
+        }
+
+        ul.policy-list li {
+            margin-bottom: 7px;
+            font-size: 15px;
+            line-height: 1.65;
+        }
+
+        /* ── Footer ── */
+        .footer {
+            margin-top: 56px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .footer a {
+            color: var(--amber);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="site-header">
+        <div class="inner">
+            <span class="logo-icon">⏳</span>
+            <div>
+                <div class="logo-name">API Response Time Machine</div>
+                <div class="logo-sub">Chrome Extension</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="page">
+
+        <!-- Hero -->
+        <div class="hero">
+            <h1>Privacy Policy</h1>
+            <div class="hero-meta">Effective date: [DATE] &nbsp;·&nbsp; Version 1.0 &nbsp;·&nbsp; Developer: Oghenetega
+                [Last Name]</div>
+            <p>This policy explains exactly what data the API Response Time Machine Chrome extension collects, where it
+                is stored, and what happens to it. The short version: <strong>everything stays on your device.</strong>
+                The extension makes no network requests and sends no data anywhere.</p>
+        </div>
+
+        <!-- At-a-glance commitments -->
+        <div class="commitment" role="region" aria-label="Privacy commitments at a glance">
+            <div class="commitment-item"><span class="ci-yes">✓</span><span>All data stored locally on your device
+                    only</span></div>
+            <div class="commitment-item"><span class="ci-no">✗</span><span>No data sent to any server — ever</span>
+            </div>
+            <div class="commitment-item"><span class="ci-yes">✓</span><span>You control what is captured via
+                    filters</span></div>
+            <div class="commitment-item"><span class="ci-no">✗</span><span>No analytics, telemetry, or crash
+                    reporting</span></div>
+            <div class="commitment-item"><span class="ci-yes">✓</span><span>You can delete all data at any time</span>
+            </div>
+            <div class="commitment-item"><span class="ci-no">✗</span><span>No account, login, or registration
+                    required</span></div>
+            <div class="commitment-item"><span class="ci-yes">✓</span><span>Recording can be paused or stopped at any
+                    time</span></div>
+            <div class="commitment-item"><span class="ci-no">✗</span><span>No passive background surveillance</span>
+            </div>
+        </div>
+
+        <!-- 1. What the extension does -->
+        <div class="section">
+            <h2><span class="num">1</span> What the Extension Does</h2>
+            <p>API Response Time Machine is a developer tool that intercepts and locally records JSON API responses made
+                by your browser. It is designed to help developers detect when an API's response structure changes
+                silently over time, and to compare any two captured responses side-by-side.</p>
+            <p>The extension only activates when you are using your browser. It does not run in the background when
+                Chrome is closed. Recording can be paused at any time from the extension popup.</p>
+        </div>
+
+        <!-- 2. What data is captured -->
+        <div class="section">
+            <h2><span class="num">2</span> What Data Is Captured</h2>
+            <p>When recording is enabled, the extension captures the following information for each qualifying network
+                request made by your browser:</p>
+
+            <table class="data-table" aria-label="Data captured per network request">
+                <thead>
+                    <tr>
+                        <th style="width:200px">Field</th>
+                        <th style="width:180px">Example</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Request URL</strong></td>
+                        <td class="mono-cell">https://api.example.com/users/1</td>
+                        <td>Identifies the endpoint. Used as the key for shape change detection.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HTTP method</strong></td>
+                        <td class="mono-cell">GET, POST, PUT, PATCH, DELETE</td>
+                        <td>Part of the endpoint identifier used for grouping and diffing.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HTTP status code</strong></td>
+                        <td class="mono-cell">200, 404, 500</td>
+                        <td>Displayed in the Feed for quick diagnosis.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Response body</strong></td>
+                        <td class="mono-cell">{"id": 1, "name": "Alice"}</td>
+                        <td>The JSON response from the server. Stored up to 50 KB per response. Truncated if larger.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Request body</strong><br><span
+                                style="font-size:12px;color:var(--muted)">(POST/PUT/PATCH only)</span></td>
+                        <td class="mono-cell">{"name": "Alice"}</td>
+                        <td>The request payload you sent. Stored up to 20 KB. Truncated if larger. Only captured for
+                            mutation requests.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Response headers</strong></td>
+                        <td class="mono-cell">Content-Type: application/json</td>
+                        <td>Displayed in the Headers tab of the record detail view.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Request headers</strong></td>
+                        <td class="mono-cell">Authorization: Bearer …</td>
+                        <td>Displayed in the Request tab of the record detail view. <strong>Note: this includes any
+                                Authorization or Cookie headers sent with the request.</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Response shape</strong></td>
+                        <td class="mono-cell">{"id": "number", "name": "string"}</td>
+                        <td>A structural schema derived from the response. Field names are preserved; all values are
+                            replaced with their type name. Used for change detection.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Timestamp</strong></td>
+                        <td class="mono-cell">Unix milliseconds</td>
+                        <td>When the response was received. Used for timeline display.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box warning">
+                <span class="info-icon">⚠️</span>
+                <div><strong>Authorization headers and sensitive request bodies:</strong> The extension captures request
+                    headers, which may include <code>Authorization</code> tokens, <code>Cookie</code> headers, and API
+                    keys. It also captures request bodies for POST/PUT/PATCH requests, which may contain sensitive data.
+                    This data is stored only on your local device and is never transmitted anywhere, but you should be
+                    aware it is recorded. Use the URL filter in Settings to exclude sensitive endpoints from capture.
+                </div>
+            </div>
+
+            <p><strong>What is not captured:</strong></p>
+            <ul class="policy-list">
+                <li>Non-JSON responses (HTML pages, images, binary data, plain text) — these are silently ignored</li>
+                <li>WebSocket frames</li>
+                <li>Responses from URLs matching your exclude patterns (configurable in Settings)</li>
+                <li>Anything captured while recording is paused</li>
+                <li>Browser history, bookmarks, tabs, or page content outside of network requests</li>
+                <li>Keystrokes, form input, clicks, or any user interaction on the page</li>
+            </ul>
+        </div>
+
+        <!-- 3. Where data is stored -->
+        <div class="section">
+            <h2><span class="num">3</span> Where Data Is Stored</h2>
+            <p>All captured data is stored exclusively in <code>chrome.storage.local</code> — a sandboxed storage area
+                managed by Chrome that is tied to your browser profile on your local device. This storage is:</p>
+            <ul class="policy-list">
+                <li><strong>Local only</strong> — it exists only on the device where you installed the extension</li>
+                <li><strong>Not synced</strong> — it is not uploaded to Chrome Sync or Google's servers</li>
+                <li><strong>Not shared</strong> — it is not accessible to any website or other extension</li>
+                <li><strong>Not transmitted</strong> — the extension makes zero outbound network requests of any kind
+                </li>
+            </ul>
+
+            <p>The following storage keys are used:</p>
+            <table class="data-table" aria-label="Storage keys used by the extension">
+                <thead>
+                    <tr>
+                        <th>Storage Key</th>
+                        <th>Contents</th>
+                        <th>Size Limit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="mono-cell">atm_records</td>
+                        <td>The full list of captured response records (up to 5,000). Oldest records are automatically
+                            pruned when the limit is reached.</td>
+                        <td>5,000 records maximum</td>
+                    </tr>
+                    <tr>
+                        <td class="mono-cell">atm_shape_history</td>
+                        <td>Per-endpoint shape change history. Stores the structural schema for each distinct shape
+                            version an endpoint has returned. Preserved independently of the record cap.</td>
+                        <td>50 change entries per endpoint</td>
+                    </tr>
+                    <tr>
+                        <td class="mono-cell">atm_config</td>
+                        <td>Your settings: whether recording is enabled, URL include/exclude filters, and notification
+                            preferences. Contains no personal data.</td>
+                        <td>Negligible</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box tip">
+                <span class="info-icon">✅</span>
+                <div>You can delete all stored data at any time. Open the extension popup → Settings → <strong>Clear All
+                        Records</strong>. This permanently removes all records and shape history from
+                    <code>chrome.storage.local</code>. You can also delete individual records from the record detail
+                    modal.</div>
+            </div>
+        </div>
+
+        <!-- 4. Data you choose to export -->
+        <div class="section">
+            <h2><span class="num">4</span> Data You Choose to Export</h2>
+            <p>The extension provides two export formats: <strong>JSON</strong> (native format including shape history)
+                and <strong>HAR</strong> (HTTP Archive, compatible with Chrome DevTools, Postman, and Insomnia). These
+                exports are created as files downloaded to your local device.</p>
+            <p>Exported files contain the same data listed in Section 2, including any request headers, authorization
+                tokens, and request bodies that were captured. <strong>Treat exported files as sensitive.</strong> Do
+                not share them with untrusted parties, as they may contain authentication tokens or API keys from your
+                captured sessions.</p>
+            <p>The extension can also import previously exported JSON files to restore records. Import data is merged
+                into <code>chrome.storage.local</code> and never transmitted anywhere.</p>
+        </div>
+
+        <!-- 5. Permissions and why they are needed -->
+        <div class="section">
+            <h2><span class="num">5</span> Chrome Permissions and Why They Are Needed</h2>
+            <p>The extension requests the following Chrome permissions. Each is required for the core functionality
+                described below and is used for no other purpose.</p>
+
+            <table class="data-table" aria-label="Chrome permissions and their purpose">
+                <thead>
+                    <tr>
+                        <th style="width:160px">Permission</th>
+                        <th>Why it is needed</th>
+                        <th>What it does NOT do</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>&lt;all_urls&gt;</code><br><small style="color:var(--muted)">(host permission)</small>
+                        </td>
+                        <td>The extension must observe and intercept network activity on any domain you browse to. API
+                            calls happen on every website — restricting to specific domains would make the tool useless
+                            for monitoring third-party APIs.</td>
+                        <td>Does not read page content, modify requests, or interact with websites in any way other than
+                            intercepting JSON API responses.</td>
+                    </tr>
+                    <tr>
+                        <td><code>webRequest</code></td>
+                        <td>Used to observe response metadata (URL, method, status code, response headers) for each
+                            network request. This is how the extension knows a request completed and can associate
+                            metadata with the response body captured by the page-level script.</td>
+                        <td>Does not modify or block any requests. The extension uses read-only observation only.</td>
+                    </tr>
+                    <tr>
+                        <td><code>scripting</code></td>
+                        <td>Required to inject <code>injected.js</code> into the page's main JavaScript context. Chrome
+                            content scripts run in an isolated world and cannot access <code>window.fetch</code> — the
+                            injected script must run in the page's own context in order to wrap <code>fetch</code> and
+                            <code>XMLHttpRequest</code> and capture response bodies.</td>
+                        <td>Does not execute arbitrary scripts on demand. The only injected script is the static
+                            <code>injected.js</code> file bundled with the extension, which exclusively wraps
+                            <code>fetch</code> and <code>XHR</code> to capture JSON responses.</td>
+                    </tr>
+                    <tr>
+                        <td><code>storage</code></td>
+                        <td>Required to read and write captured records, shape history, and settings to
+                            <code>chrome.storage.local</code>.</td>
+                        <td>Does not access <code>chrome.storage.sync</code>. All storage is local only.</td>
+                    </tr>
+                    <tr>
+                        <td><code>alarms</code></td>
+                        <td>Manifest V3 service workers are killed by Chrome after approximately 30 seconds of
+                            inactivity. A repeating alarm fires every 24 seconds to wake the service worker and
+                            re-register the <code>webRequest</code> listener, ensuring no responses are missed during a
+                            recording session.</td>
+                        <td>Does not schedule any actions other than the internal service worker keepalive.</td>
+                    </tr>
+                    <tr>
+                        <td><code>tabs</code></td>
+                        <td>Used to identify which tab a captured response originated from, so the extension can display
+                            the correct host information in the Feed.</td>
+                        <td>Does not read tab URLs, titles, or history. Does not track browsing behaviour.</td>
+                    </tr>
+                    <tr>
+                        <td><code>notifications</code></td>
+                        <td>Used exclusively to show a browser notification when an API response shape change is
+                            detected — and only when you have explicitly enabled this feature in Settings. Notifications
+                            are off by default.</td>
+                        <td>Does not show notifications for any purpose other than shape change alerts that you have
+                            opted into.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 6. Third-party services -->
+        <div class="section">
+            <h2><span class="num">6</span> Third-Party Services</h2>
+            <p>The extension uses <strong>no third-party services of any kind</strong>. It does not integrate with
+                analytics platforms, error monitoring services, crash reporters, advertising networks, or any external
+                API. There is no backend server. No data is ever transmitted outside of your local device.</p>
+            <p>The extension loads fonts from Google Fonts in the popup UI (<code>fonts.googleapis.com</code>). This is
+                the only external connection the popup makes — it is a standard font stylesheet request and does not
+                transmit any captured API data.</p>
+
+            <div class="info-box info">
+                <span class="info-icon">ℹ️</span>
+                <div>If you want to verify the extension makes no data-exfiltration requests, you can inspect its
+                    network activity in Chrome DevTools by opening the extension's service worker from
+                    <code>chrome://extensions</code> → "Service Worker" and observing the Network tab while using the
+                    extension.</div>
+            </div>
+        </div>
+
+        <!-- 7. Children -->
+        <div class="section">
+            <h2><span class="num">7</span> Children's Privacy</h2>
+            <p>API Response Time Machine is a developer tool intended for adults. It is not directed at children under
+                the age of 13, and we do not knowingly collect personal information from children. Since the extension
+                collects no personal information at all (all data stays local on your device), it does not collect
+                children's personal information either.</p>
+        </div>
+
+        <!-- 8. Changes -->
+        <div class="section">
+            <h2><span class="num">8</span> Changes to This Policy</h2>
+            <p>If this privacy policy changes materially, the updated version will be published at this URL with a new
+                effective date. Since the extension collects no data and has no user accounts, there is no mechanism to
+                notify existing users directly — check this page if you have questions after an extension update.</p>
+            <p>The extension version and this policy version are kept in sync. The current policy applies to extension
+                version 1.0.0.</p>
+        </div>
+
+        <!-- 9. Contact -->
+        <div class="section">
+            <h2><span class="num">9</span> Contact</h2>
+            <p>If you have questions about this privacy policy or the data practices of this extension, contact:</p>
+            <p>
+                <strong>Oghenetega Sukuru</strong><br>
+                Email: <a href="mailto:[your-email]">sukuruoghenetega@gmail.com</a><br>
+                GitHub: <a href="https://github.com/oghenetega16/api-time-machine" target="_blank"
+                    rel="noopener">github.com/oghenetega16/api-time-machine</a>
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>API Response Time Machine · Privacy Policy · Version 1.0 · Effective [DATE]</p>
+            <p style="margin-top:6px">This extension is open source. You can audit the full source code at <a
+                    href="https://github.com/oghenetega16/api-time-machine">github.com/oghenetega16/api-time-machine</a>.
+            </p>
+        </div>
+
+    </main>
+</body>
+
+</html>
